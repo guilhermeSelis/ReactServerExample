@@ -5,16 +5,18 @@ import './index.css';
 function App() {
   const [userData, setUserData] = useState(null);
   const [walletData, setWalletData] = useState(null);
-  const documenValue = 52661907874;
+  const documentValue = 12312312312;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Chamada POST para generateFiatDepositQrCode
-        const response1 = await axios.post('http://localhost:3002/api/generateFiatDepositQrCode', { value: 200, document: documenValue });
+        const response1 = await axios.post('http://localhost:3002/api/generateFiatDepositQrCode', { value: 200, document: documentValue });
         setUserData(response1.data);
 
-        const response2 = await axios.get(`http://localhost:3002/api/getUserBalances?document=${documenValue}`);
+        const response2 = await axios.get(`http://localhost:3002/api/getUserWallets?coin=BTC&document=${documentValue}`);
+        //sempre será necessário passar o document, mesmo se for uma requisição sem parametros
+        // Exemplo: const response2 = await axios.get(`http://localhost:3002/api/getUserWallets?document=${documenValue}`);
         setWalletData(response2.data);
       } catch (error) {
         console.error('Erro na solicitação:', error.message);
@@ -35,7 +37,7 @@ function App() {
       </div>
 
       <div>
-        <h2>Carteiras do Usuário (Chamada de método GET)</h2>
+        <h2>Carteiras de BTC do Usuário (Chamada de método GET)</h2>
         <pre>{JSON.stringify(walletData, null, 2)}</pre>
       </div>
     </div>

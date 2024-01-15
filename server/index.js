@@ -39,9 +39,8 @@ app.all('/api/:endpoint', async (req, res) => {
     //Realizando a chamada e fazendo o tratamento para saber se foi método POST ou GET
     if (method === 'get') {
       const { query } = req;
-      console.log('query:', query)
-      console.log('headers get: ', headers)
-      response = await axios.get(apiEndpoint, { headers });
+      fullApiEndpoint = '?' + new URLSearchParams(query).toString();
+      response = await axios.get(apiEndpoint + fullApiEndpoint, { headers });
     } else if (method === 'post') {
       response = await axios.post(apiEndpoint, body, { headers });
     } else {
